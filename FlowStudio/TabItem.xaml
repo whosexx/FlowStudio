@@ -1,0 +1,261 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:s="clr-namespace:System;assembly=mscorlib"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ContextMenu x:Key="tab">
+        <MenuItem Command="{x:Static ApplicationCommands.Close}" CommandParameter="{Binding Parent.PlacementTarget, RelativeSource={RelativeSource Self}}" />
+    </ContextMenu>
+
+    <Style x:Key="btn" TargetType="Button">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="Transparent" x:Name="bord" Width="16" Height="16" CornerRadius="10">
+                        <ContentPresenter VerticalAlignment="Center">
+                            <ContentPresenter.Content>
+                                <Path Margin="4" RenderTransformOrigin="0.5,0.5" x:Name="PART_CLOSE" Data="F1M34.121,7.121C34.121,7.121 22.243,19 22.243,19 22.243,19 34.121,30.879 34.121,30.879 34.664,31.422 35,32.172 35,33 35,34.657 33.657,36 32,36 31.172,36 30.422,35.664 29.879,35.121 29.879,35.121 18,23.243 18,23.243 18,23.243 6.121,35.121 6.121,35.121 5.578,35.664 4.828,36 4,36 2.343,36 1,34.657 1,33 1,32.172 1.336,31.422 1.879,30.879 1.879,30.879 13.757,19 13.757,19 13.757,19 1.879,7.121 1.879,7.121 1.336,6.579 1,5.828 1,5 1,3.343 2.343,2 4,2 4.828,2 5.578,2.336 6.121,2.879 6.121,2.879 18,14.757 18,14.757 18,14.757 29.879,2.879 29.879,2.879 30.422,2.336 31.172,2 32,2 33.657,2 35,3.343 35,5 35,5.828 34.664,6.579 34.121,7.121z" Fill="Gray" Stretch="Fill">
+                                    <Path.RenderTransform>
+                                        <RotateTransform />
+                                    </Path.RenderTransform>
+                                </Path>
+                            </ContentPresenter.Content>
+                        </ContentPresenter>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="bord" Property="Background" Value="OrangeRed" />
+                            <Setter TargetName="PART_CLOSE" Property="Fill" Value="White" />
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation To="180" Duration="0:0:0.2" Storyboard.TargetName="PART_CLOSE" Storyboard.TargetProperty="RenderTransform.Angle" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0:0:0.1" Storyboard.TargetName="PART_CLOSE" Storyboard.TargetProperty="RenderTransform.Angle" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="tabitem" TargetType="TabItem">
+        <Setter Property="Header" Value="{Binding FileName}" />
+        <Setter Property="Content" Value="{Binding Content}" />
+        <Setter Property="ContextMenu" Value="{StaticResource tab}" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TabItem}">
+                    <Border Name="Bd" BorderThickness="1,1,1,0" Padding="2" BorderBrush="{TemplateBinding Border.BorderBrush}" Background="{TemplateBinding Panel.Background}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />                                
+                                <ColumnDefinition Width="auto" />
+                            </Grid.ColumnDefinitions>
+                            <ContentPresenter RecognizesAccessKey="True" Content="{TemplateBinding HeaderedContentControl.Header}" 
+                                                        ContentTemplate="{TemplateBinding HeaderedContentControl.HeaderTemplate}" 
+                                                        ContentStringFormat="{TemplateBinding HeaderedContentControl.HeaderStringFormat}" 
+                                                        ContentSource="Header" Name="Content" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                                        SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
+
+                            <Button Grid.Column="1" Style="{StaticResource btn}" DataContext="{Binding}" Command="{x:Static ApplicationCommands.Close}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=TabItem, Mode=FindAncestor}}" />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="UIElement.IsMouseOver">
+                            <Setter Property="Panel.Background" TargetName="Bd">
+                                <Setter.Value>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                        <LinearGradientBrush.GradientStops>
+                                            <GradientStop Color="#FFEAF6FD" Offset="0.15" />
+                                            <GradientStop Color="#FFD9F0FC" Offset="0.5" />
+                                            <GradientStop Color="#FFBEE6FD" Offset="0.5" />
+                                            <GradientStop Color="#FFA7D9F5" Offset="1" />
+                                        </LinearGradientBrush.GradientStops>
+                                    </LinearGradientBrush>
+                                </Setter.Value>
+                            </Setter>
+                            <Trigger.Value>
+                                <s:Boolean>True</s:Boolean>
+                            </Trigger.Value>
+                        </Trigger>
+                        <Trigger Property="Selector.IsSelected">
+                            <Setter Property="Panel.ZIndex">
+                                <Setter.Value>
+                                    <s:Int32>1</s:Int32>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="Panel.Background" TargetName="Bd">
+                                <Setter.Value>
+                                    <SolidColorBrush>#FFF9F9F9</SolidColorBrush>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="Border.CornerRadius" Value="2,10,0,0" TargetName="Bd" />                            
+                            <Trigger.Value>
+                                <s:Boolean>True</s:Boolean>
+                            </Trigger.Value>                                                        
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="Selector.IsSelected">
+                                    <Condition.Value>
+                                        <s:Boolean>False</s:Boolean>
+                                    </Condition.Value>
+                                </Condition>
+                                <Condition Property="UIElement.IsMouseOver">
+                                    <Condition.Value>
+                                        <s:Boolean>True</s:Boolean>
+                                    </Condition.Value>
+                                </Condition>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Border.BorderBrush" TargetName="Bd">
+                                <Setter.Value>
+                                    <SolidColorBrush>#FF3C7FB1</SolidColorBrush>
+                                </Setter.Value>
+                            </Setter>
+                        </MultiTrigger>
+                        <Trigger Property="TabItem.TabStripPlacement">
+                            <Setter Property="Border.BorderThickness" TargetName="Bd">
+                                <Setter.Value>
+                                    <Thickness>1,0,1,1</Thickness>
+                                </Setter.Value>
+                            </Setter>
+                            <Trigger.Value>
+                                <x:Static Member="Dock.Bottom" />
+                            </Trigger.Value>
+                        </Trigger>
+                        <Trigger Property="TabItem.TabStripPlacement">
+                            <Setter Property="Border.BorderThickness" TargetName="Bd">
+                                <Setter.Value>
+                                    <Thickness>1,1,0,1</Thickness>
+                                </Setter.Value>
+                            </Setter>
+                            <Trigger.Value>
+                                <x:Static Member="Dock.Left" />
+                            </Trigger.Value>
+                        </Trigger>
+                        <Trigger Property="TabItem.TabStripPlacement">
+                            <Setter Property="Border.BorderThickness" TargetName="Bd">
+                                <Setter.Value>
+                                    <Thickness>0,1,1,1</Thickness>
+                                </Setter.Value>
+                            </Setter>
+                            <Trigger.Value>
+                                <x:Static Member="Dock.Right" />
+                            </Trigger.Value>
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="Selector.IsSelected">
+                                    <Condition.Value>
+                                        <s:Boolean>True</s:Boolean>
+                                    </Condition.Value>
+                                </Condition>
+                                <Condition Property="TabItem.TabStripPlacement" Value="{x:Static Dock.Top}" />
+                            </MultiTrigger.Conditions>
+                            <Setter Property="FrameworkElement.Margin">
+                                <Setter.Value>
+                                    <Thickness>-2,-2,-2,-1</Thickness>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="FrameworkElement.Margin" TargetName="Content">
+                                <Setter.Value>
+                                    <Thickness>0,0,0,1</Thickness>
+                                </Setter.Value>
+                            </Setter>
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="Selector.IsSelected">
+                                    <Condition.Value>
+                                        <s:Boolean>True</s:Boolean>
+                                    </Condition.Value>
+                                </Condition>
+                                <Condition Property="TabItem.TabStripPlacement" Value="{x:Static Dock.Bottom}" />
+                            </MultiTrigger.Conditions>
+                            <Setter Property="FrameworkElement.Margin">
+                                <Setter.Value>
+                                    <Thickness>-2,-1,-2,-2</Thickness>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="FrameworkElement.Margin" TargetName="Content">
+                                <Setter.Value>
+                                    <Thickness>0,1,0,0</Thickness>
+                                </Setter.Value>
+                            </Setter>
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="Selector.IsSelected">
+                                    <Condition.Value>
+                                        <s:Boolean>True</s:Boolean>
+                                    </Condition.Value>
+                                </Condition>
+                                <Condition Property="TabItem.TabStripPlacement" Value="{x:Static Dock.Left}" />
+                            </MultiTrigger.Conditions>
+                            <Setter Property="FrameworkElement.Margin">
+                                <Setter.Value>
+                                    <Thickness>-2,-2,-1,-2</Thickness>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="FrameworkElement.Margin" TargetName="Content">
+                                <Setter.Value>
+                                    <Thickness>0,0,1,0</Thickness>
+                                </Setter.Value>
+                            </Setter>
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="Selector.IsSelected">
+                                    <Condition.Value>
+                                        <s:Boolean>True</s:Boolean>
+                                    </Condition.Value>
+                                </Condition>
+                                <Condition Property="TabItem.TabStripPlacement" Value="{x:Static Dock.Right}" />
+                            </MultiTrigger.Conditions>
+                            <Setter Property="FrameworkElement.Margin">
+                                <Setter.Value>
+                                    <Thickness>-1,-2,-2,-2</Thickness>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="FrameworkElement.Margin" TargetName="Content">
+                                <Setter.Value>
+                                    <Thickness>1,0,0,0</Thickness>
+                                </Setter.Value>
+                            </Setter>
+                        </MultiTrigger>
+                        <Trigger Property="UIElement.IsEnabled">
+                            <Setter Property="Panel.Background" TargetName="Bd">
+                                <Setter.Value>
+                                    <SolidColorBrush>#FFF4F4F4</SolidColorBrush>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="Border.BorderBrush" TargetName="Bd">
+                                <Setter.Value>
+                                    <SolidColorBrush>#FFC9C7BA</SolidColorBrush>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="TextElement.Foreground">
+                                <Setter.Value>
+                                    <DynamicResource ResourceKey="{x:Static SystemColors.GrayTextBrushKey}" />
+                                </Setter.Value>
+                            </Setter>
+                            <Trigger.Value>
+                                <s:Boolean>False</s:Boolean>
+                            </Trigger.Value>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

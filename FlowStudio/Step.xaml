@@ -1,0 +1,161 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:FlowStudio">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Connector.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <local:Double2Int x:Key="d2i" />
+    <Style TargetType="{x:Type local:StepResizedChrome}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:StepResizedChrome}">
+                    <Grid SnapsToDevicePixels="True">
+                        <Path Stroke="Red" StrokeThickness="1" Height="10" VerticalAlignment="Bottom" Margin="-1,0,-1,-18" Stretch="Fill" Data="M0,0 0,10 M 0,5 100,5 M 100,0 100,10"/>
+                        <TextBlock Text="{Binding ActualWidth, Converter={StaticResource d2i}}" Background="White" 
+                                    Foreground="SteelBlue" FontSize="10" Margin="0,00,0,-20" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+                        
+                        <Path Stroke="Red" StrokeThickness="1" Width="10" HorizontalAlignment="Right" Margin="0,-1,-18,-1" Stretch="Fill" Data="M5,0 5,100 M 0,0 10,0 M 0,100 10,100"/>
+                        <TextBlock Text="{Binding ActualHeight, Converter={StaticResource d2i}}" Background="White"
+                                   Foreground="SteelBlue" FontSize="10" Margin="0,0,-20,0" HorizontalAlignment="Right" VerticalAlignment="Center">
+                            <TextBlock.LayoutTransform>
+                                <RotateTransform Angle="90" CenterX="1" CenterY="0.5"/>
+                            </TextBlock.LayoutTransform>
+                        </TextBlock>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <local:Point2String x:Key="p2s" />
+    <Style TargetType="{x:Type local:StepMoveChrome}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:StepMoveChrome}">
+                    <TextBlock IsHitTestVisible="False" Text="{Binding Position, Converter={StaticResource p2s}}" FontSize="10" Foreground="SteelBlue" Margin="-20,-18,-20,0" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <Style TargetType="{x:Type local:MoveThumb}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:MoveThumb}">
+                    <Rectangle Fill="Transparent"/>         
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <Style TargetType="{x:Type Shape}" x:Key="ThumbCorner">
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="Stroke" Value="#FFC8C8C8" />
+        <Setter Property="StrokeThickness" Value=".5" />
+        <Setter Property="Width" Value="8" />
+        <Setter Property="Height" Value="8" />
+        <Setter Property="Margin" Value="-2" />
+        <Setter Property="Fill">
+            <Setter.Value>
+                <RadialGradientBrush Center="0.2, 0.2" GradientOrigin="0.2, 0.2" RadiusX="0.8" RadiusY="0.8">
+                    <GradientStop Color="White" Offset="0.0" />
+                    <GradientStop Color="MidnightBlue" Offset="0.8" />
+                </RadialGradientBrush>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <ControlTemplate x:Key="chrome" TargetType="{x:Type Control}">
+        <Grid>
+            <Grid Opacity="0" Margin="-3">
+                <local:ResizeThumb Height="3" Cursor="SizeNS" VerticalAlignment="Top" HorizontalAlignment="Stretch"/>
+                <local:ResizeThumb Width="3" Cursor="SizeWE" VerticalAlignment="Stretch" HorizontalAlignment="Left"/>
+                <local:ResizeThumb Width="3" Cursor="SizeWE" VerticalAlignment="Stretch" HorizontalAlignment="Right"/>
+                <local:ResizeThumb Height="3" Cursor="SizeNS" VerticalAlignment="Bottom" HorizontalAlignment="Stretch"/>
+
+                <local:ResizeThumb Width="7" Height="7" Margin="-2" Cursor="SizeNWSE" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                <local:ResizeThumb Width="7" Height="7" Margin="-2" Cursor="SizeNESW" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+                <local:ResizeThumb Width="7" Height="7" Margin="-2" Cursor="SizeNESW" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
+                <local:ResizeThumb Width="7" Height="7" Margin="-2" Cursor="SizeNWSE" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
+            </Grid>
+            <Grid IsHitTestVisible="False" Opacity="1" Margin="-2">
+                <Rectangle SnapsToDevicePixels="True" StrokeThickness="1" Margin="1" Stroke="SteelBlue"/>
+                <Ellipse Style="{StaticResource ThumbCorner}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                <Ellipse Style="{StaticResource ThumbCorner}" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                <Ellipse Style="{StaticResource ThumbCorner}" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                <Ellipse Style="{StaticResource ThumbCorner}" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+            </Grid>
+        </Grid>
+    </ControlTemplate>
+
+    <Style TargetType="{x:Type local:Step}">
+        <Style.Resources>
+            <!-- ConnectorDecoratorTemplate Default Template -->
+            <ControlTemplate x:Key="ConnectorTemplate" TargetType="{x:Type Control}">
+                <Grid Margin="-5">
+                    <local:Connector x:Name="Left" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                    <local:Connector x:Name="Top" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+                    <local:Connector x:Name="Right" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                    <local:Connector x:Name="Bottom" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
+                </Grid>
+            </ControlTemplate>
+            <ContextMenu x:Key="stepContextMenu">
+                <MenuItem Command="{x:Static ApplicationCommands.Copy}" />
+                <MenuItem Command="{x:Static ApplicationCommands.Paste}" />
+                <Separator />
+                <MenuItem Command="{x:Static ApplicationCommands.Delete}" />
+                <Separator />
+                <MenuItem Command="{x:Static ApplicationCommands.Properties}" />
+            </ContextMenu>
+        </Style.Resources>
+        
+        <Setter Property="MinHeight" Value="25"/>
+        <Setter Property="MinWidth" Value="25"/>
+        <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+        <Setter Property="SnapsToDevicePixels" Value="true"/>
+        <Setter Property="Focusable" Value="True" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="ContextMenu" Value="{StaticResource stepContextMenu}" />
+        
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:Step}">
+                    <Grid DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}}">                        
+                        <local:MoveThumb x:Name="PART_MoveThumb" Cursor="SizeAll" />
+                        <ContentPresenter x:Name="PART_ContentPresenter" IsHitTestVisible="False" Content="{TemplateBinding Content}" Margin="{TemplateBinding Padding}" />
+                        <Control x:Name="PART_Chrome" Visibility="Hidden" Template="{StaticResource chrome}" />
+                        <Control x:Name="PART_Connector" Visibility="Hidden" Template="{StaticResource ConnectorTemplate}" />
+                        
+                        <TextBlock x:Name="PART_TextBlock" IsHitTestVisible="False" Margin="4" Padding="4,2,3,2"
+                                   FontSize="14" FontFamily="幼圆" TextWrapping="Wrap" Foreground="SteelBlue" 
+                                   Text="{Binding ElementName=PART_TextBox, Path=Text, UpdateSourceTrigger=PropertyChanged}" />
+                        
+                        <Border Margin="4">
+                            <TextBox x:Name="PART_TextBox" TextWrapping="Wrap" AcceptsReturn="True" FontSize="14"
+                                 FontFamily="幼圆" Foreground="SteelBlue" Visibility="Collapsed"
+                                 Text="{Binding Path=Describe, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                        </Border>                        
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="PART_Chrome" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="PART_Connector" Property="Visibility" Value="Visible"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="PART_Connector" Property="Visibility" Value="Visible"/>
+                        </Trigger>
+                        
+                        <DataTrigger Value="True" Binding="{Binding RelativeSource={RelativeSource Self},Path=IsShowConnector}">
+                            <Setter TargetName="PART_Connector" Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                        <DataTrigger Value="True" Binding="{Binding RelativeSource={RelativeSource Self},Path=IsEdited}">
+                            <Setter TargetName="PART_TextBox" Property="Visibility" Value="Visible"/>
+                            <Setter Property="Edited" Value="True"/>
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>    
+</ResourceDictionary>

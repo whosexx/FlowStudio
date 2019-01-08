@@ -1,0 +1,88 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style TargetType="Path" x:Key="FlowChartItemStyle">
+        <Setter Property="Focusable" Value="True"/>
+        <Setter Property="Fill" Value="YellowGreen" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Stroke" Value="Gray" />
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="Stretch" Value="Fill" />
+        
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimation To="SteelBlue" Duration="00:00:0.3" Storyboard.TargetProperty="Fill.Color" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+                <Trigger.ExitActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimation BeginTime="00:00:0.15" Duration="00:00:0.4" Storyboard.TargetProperty="Fill.Color" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.ExitActions>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!-- rect -->
+    <Style x:Key="Rect" TargetType="Path" BasedOn="{StaticResource FlowChartItemStyle}">
+        <Setter Property="Data" Value="M 0,0 H 60 V40 H 0 Z"/>
+    </Style>
+    <Style x:Key="Rect_MoveThumb" TargetType="Path" BasedOn="{StaticResource Rect}">
+        <Setter Property="IsHitTestVisible" Value="true"/>
+        <Setter Property="Fill" Value="Transparent"/>
+        <Setter Property="Stroke" Value="Transparent"/>
+    </Style>
+    
+
+    <!-- Decision -->
+    <Style x:Key="Decision" TargetType="Path" BasedOn="{StaticResource FlowChartItemStyle}">
+        <Setter Property="Data" Value="M 0,20 L 30 0 L 60,20 L 30,40 Z"/>
+    </Style>
+    <Style x:Key="Decision_MoveThumb" TargetType="Path" BasedOn="{StaticResource Decision}">
+        <Setter Property="IsHitTestVisible" Value="true"/>
+        <Setter Property="Fill" Value="Transparent"/>
+        <Setter Property="Stroke" Value="Transparent"/>
+    </Style>
+    
+    <!-- Data -->
+    <Style x:Key="Data" TargetType="Path" BasedOn="{StaticResource FlowChartItemStyle}">
+        <Setter Property="Data" Value="M 10,0 L 60 0 L 50,40 L 0,40 Z"/>
+    </Style>
+
+    <!-- Start -->
+    <Style x:Key="circle" TargetType="Path" BasedOn="{StaticResource FlowChartItemStyle}">
+        <Setter Property="Data" Value="M 10,20 A 20,20 0 1 1 50,20 A 20,20 0 1 1 10,20"/>
+    </Style>
+    
+    <!-- star -->
+    <Style x:Key="star" TargetType="Path" BasedOn="{StaticResource FlowChartItemStyle}">
+        <Setter Property="Data" Value="F1M55.269,4.759C55.269,4.759 43.542,28.524 40.451,34.786 33.542,35.79 7.316,39.604 7.316,39.604 4.096,40.067 1.425,42.323 0.42,45.418 0.138,46.282 0,47.171 0,48.053 0,50.317 0.905,52.537 2.581,54.171 2.581,54.171 21.557,72.672 26.558,77.544 25.38,84.424 20.897,110.548 20.897,110.548 20.816,111.03 20.776,111.512 20.776,111.994 20.776,114.699 22.062,117.279 24.297,118.901 26.926,120.811 30.415,121.063 33.292,119.551 33.292,119.551 56.749,107.219 62.931,103.971 69.111,107.219 92.568,119.551 92.568,119.551 95.446,121.063 98.935,120.811 101.565,118.901 103.799,117.279 105.084,114.699 105.084,111.994 105.084,111.512 105.044,111.03 104.962,110.548 104.962,110.548 100.483,84.424 99.303,77.544 104.302,72.672 123.28,54.171 123.28,54.171 124.956,52.537 125.86,50.317 125.86,48.053 125.86,47.171 125.722,46.282 125.442,45.418 124.437,42.323 121.763,40.067 118.545,39.604 118.545,39.604 92.321,35.79 85.409,34.786 82.319,28.524 70.589,4.759 70.589,4.759 69.15,1.846 66.183,0 62.931,0 59.677,0 56.712,1.846 55.269,4.759"/>        
+    </Style>
+
+    <!-- triangle -->
+    <Style x:Key="triangle" TargetType="Path" BasedOn="{StaticResource FlowChartItemStyle}">
+        <Setter Property="Data" Value="F1M0,113.643L131.224,113.643 65.609,0z"/>
+    </Style>
+
+    <!-- love -->
+    <Style x:Key="love" TargetType="Path" BasedOn="{StaticResource FlowChartItemStyle}">
+        <Setter Property="Data" Value="F1M62.197,16.481C56.391,6.622 45.675,0 33.406,0 14.956,0 0,14.955 0,33.404 0,75.445 62.197,109.997 62.197,109.997 62.197,109.997 124.396,74.87 124.396,33.404 124.396,14.955 109.441,0 90.994,0 78.725,0 68.006,6.622 62.197,16.481" />
+    </Style>
+
+    <!-- cloud -->
+    <Style x:Key="cloud" TargetType="Path" BasedOn="{StaticResource FlowChartItemStyle}">
+        <Setter Property="Data" Value="F1M0,56.535C0,87.759 36.164,113.073 80.767,113.073 80.939,113.073 81.107,113.065 81.279,113.065 82.409,114.278 83.683,115.424 85.083,116.486 77.315,119.197 71.979,124.813 71.979,131.299 71.979,140.443 82.566,147.853 95.623,147.853 108.679,147.853 119.264,140.443 119.264,131.299 119.264,128.86 118.506,126.547 117.15,124.463 134.911,122.698 148.579,112.019 148.579,99.097 148.579,95.81 147.682,92.672 146.072,89.786 155.789,80.454 161.535,68.965 161.535,56.535 161.535,25.311 125.375,0 80.767,0 36.164,0 0,25.311 0,56.535" />
+    </Style>
+
+    <!-- cross -->
+    <Style x:Key="cross" TargetType="Path" BasedOn="{StaticResource FlowChartItemStyle}">
+        <Setter Property="Data" Value="F1M44.315,0C38.004,0,32.895,5.114,32.895,11.416L32.895,32.899 11.416,32.899C5.11,32.899,0,38.011,0,44.314L0,73.803C0,80.107,5.11,85.219,11.416,85.219L32.895,85.219 32.895,106.699C32.895,113.003,38.004,118.116,44.315,118.116L73.803,118.116C80.109,118.116,85.22,113.003,85.22,106.699L85.22,85.219 106.703,85.219C112.999,85.219,118.116,80.107,118.116,73.803L118.116,44.314C118.116,38.011,112.999,32.899,106.703,32.899L85.22,32.899 85.22,11.416C85.22,5.114,80.109,0,73.803,0z" />
+    </Style>
+    
+</ResourceDictionary>

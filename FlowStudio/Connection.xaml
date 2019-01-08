@@ -1,0 +1,79 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:FlowStudio"
+                    >
+    
+    <Style TargetType="{x:Type local:Connection}">
+        <Style.Resources>
+            <Style x:Key="ConnectionAdornerThumbStyle" TargetType="{x:Type Thumb}">
+                <Setter Property="Width" Value="12"/>
+                <Setter Property="Height" Value="12"/>
+                <Setter Property="SnapsToDevicePixels" Value="true"/>                
+                <Setter Property="RenderTransform">
+                    <Setter.Value>
+                        <TranslateTransform X="-6" Y="-6"/>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Thumb}">
+                            <Ellipse Fill="SteelBlue" Stroke="DodgerBlue" StrokeThickness="1"/>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </Style.Resources>
+
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="SnapsToDevicePixels" Value="true"/>
+        <Setter Property="Foreground" Value="SteelBlue" />
+        <Setter Property="Background" Value="{x:Null}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:Connection}">
+                    <Grid DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}}">                                                
+                        <Path x:Name="PART_Path" Data="{Binding PathGeometry}" StrokeThickness="3"
+                              Stroke="LightSlateGray" StrokeStartLineCap="Round"
+                              StrokeEndLineCap="Round" StrokeLineJoin="Round"
+                              StrokeDashArray="{Binding StrokeDashArray}" SnapsToDevicePixels="True">
+                        </Path>
+                        <ContentPresenter Content="{Binding ElementName=PART_TextBox, Path=Text, UpdateSourceTrigger=PropertyChanged}" 
+                                          SnapsToDevicePixels="True" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        
+                        <TextBox x:Name="PART_TextBox" TextWrapping="Wrap" AcceptsReturn="True" FontFamily="幼圆" 
+                                 Foreground="SteelBlue" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                 Text="{Binding Path=Describe, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MinWidth="40" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="PART_Path" Property="StrokeThickness" Value="4" />
+                            <Setter TargetName="PART_Path" Property="Stroke" Value="BlueViolet" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="PART_Path" To="5" Duration="00:00:0.3" Storyboard.TargetProperty="StrokeThickness" />
+                                        <ColorAnimation Storyboard.TargetName="PART_Path" To="Green" Duration="00:00:0.3" Storyboard.TargetProperty="Stroke.Color" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="PART_Path" BeginTime="00:00:0.15" Duration="00:00:0.4" Storyboard.TargetProperty="StrokeThickness" />
+                                        <ColorAnimation Storyboard.TargetName="PART_Path" BeginTime="00:00:0.15" Duration="00:00:0.4" Storyboard.TargetProperty="Stroke.Color" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                        <DataTrigger Value="True" Binding="{Binding RelativeSource={RelativeSource Self},Path=IsEdited}">
+                            <Setter TargetName="PART_TextBox" Property="Visibility" Value="Visible"/>
+                            <Setter Property="Edited" Value="True"/>
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
